@@ -45,4 +45,16 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         tools:text="8m" />
+
+    <ImageView
+        android:id="@+id/ivEmbedded"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/tvTweet"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="14dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.models;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +19,8 @@ public class Tweet {
     public String body;
     public String createdAt;
     public User user;
+    public String imageUrl;
+    public boolean hasImage;
 
     // Empty constructor req for parcel library
     public Tweet(){
@@ -29,6 +32,21 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+
+        tweet.hasImage = false;
+        JSONObject entities = jsonObject.getJSONObject("entities");
+        // Parse first image from list of media objects
+        // Media object only exists if there is any media
+        if(entities.has("media")){
+            tweet.hasImage = true;
+            JSONArray mediaArray = (JSONArray) entities.get("media");
+            JSONObject firstMedia = (JSONObject) mediaArray.get(0);
+            tweet.imageUrl = firstMedia.getString("media_url");
+            Log.i("Tweet", "This tweet goes with this image "+tweet.body+" "+tweet.imageUrl);
+        }
+
+
+
         return tweet;
     }
 
@@ -65,5 +83,11 @@ public class Tweet {
 
     public User getUser() {
         return user;
+    }
+
+    public String getImageUrl(){
+        if(hasImage)
+            return imageUrl;
+        return null;
     }
 }
