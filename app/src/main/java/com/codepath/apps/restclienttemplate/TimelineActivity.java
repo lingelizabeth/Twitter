@@ -1,13 +1,15 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -51,6 +53,24 @@ public class TimelineActivity extends AppCompatActivity {
     public void onLogoutButton(View view) {
         client.clearAccessToken(); // forget who's logged in
         finish(); // navigate backwards to Login screen after the intent led from Login to here
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // passed in the menu item that was clicked
+        if(item.getItemId() == R.id.compose){
+            Intent i = new Intent(this, ComposeActivity.class);
+            startActivity(i);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void populateHomeTimeline() {
