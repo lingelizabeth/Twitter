@@ -90,18 +90,18 @@
 
         <Button
             android:id="@+id/btnReply"
-            android:layout_width="55dp"
-            android:layout_height="40dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
             android:layout_below="@id/ivEmbedded"
             android:layout_marginStart="9dp"
             android:layout_marginTop="0dp"
             android:layout_toEndOf="@+id/ivProfileImage"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/ic_vector_retweet"
-            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/ic_vector_reply"
+            android:drawablePadding="1dp"
+            android:text="Reply"
             android:textColor="@color/medium_gray"
-            android:textSize="14dp"
-            tools:text="413" />
+            android:textSize="14dp" />
 
     </RelativeLayout>
 
