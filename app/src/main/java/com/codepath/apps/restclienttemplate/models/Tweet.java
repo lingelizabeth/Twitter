@@ -24,7 +24,7 @@ public class Tweet {
     public String imageUrl;
     public boolean hasImage;
 
-    // Empty constructor req for parcel library
+    // Empty constructor required for parcel library
     public Tweet(){
 
     }
@@ -52,6 +52,7 @@ public class Tweet {
         return tweet;
     }
 
+    // Parse a list of tweets from a JSON Array after API call
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException{
         List<Tweet> tweets = new ArrayList<>();
         for(int i=0;i<jsonArray.length();i++){
@@ -60,11 +61,12 @@ public class Tweet {
         return tweets;
     }
 
+    // Getter functions below:
     public String getBody() {
         return body;
     }
 
-    // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
+    // Function to parse Twitter date into longform relative time, ie. "2 hours ago"
     public String getRelativeTimeAgo() {
         String rawJsonDate = createdAt;
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -83,7 +85,8 @@ public class Tweet {
         return relativeDate;
     }
 
-    // Copied from https://stackoverflow.com/questions/19409035/custom-format-for-relative-time-span
+    // Function to parse Twitter date into abbreviated relative time, ie. "2h"
+    // From https://stackoverflow.com/questions/19409035/custom-format-for-relative-time-span
     public String getTimeString() throws ParseException {
 
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -135,6 +138,7 @@ public class Tweet {
         return dateStr.toString();
     }
 
+    // Helper functions
     public static int minuteBetween(Date d1, Date d2) {
         return (int) ((d2.getTime() - d1.getTime()) / DateUtils.SECOND_IN_MILLIS);
     }

@@ -67,12 +67,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
-    public void addAll(List<Tweet> list) {
-        tweets.addAll(list);
-        notifyDataSetChanged();
-    }
-
 
     //Define a View Holder class which will parameterize the RecyclerView.Adapter
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -86,6 +80,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             // itemView passed in is one item in recyclerview
             super(itemView);
 
+            // Get references to all views in tweet item
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             ivEmbedded = itemView.findViewById(R.id.ivEmbedded);
             tvUsername = itemView.findViewById(R.id.tvUsername);
@@ -94,16 +89,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRelativeTime = itemView.findViewById(R.id.tvRelativeTime);
             btnReply = itemView.findViewById(R.id.btnReply);
 
+            // Set on click listeners
             itemView.setOnClickListener(this);
             btnReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // When reply button is clicked, start compose activity and pass OP's username
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Tweet tweet = tweets.get(position);
                         Log.i("TweetsAdapter", "Reply button clicked!");
                         Intent i = new Intent(context, ComposeActivity.class);
-                        i.putExtra("TWEET REPLY", Parcels.wrap(tweet.getUser().username));
+                        // Put username as extra data
+                        i.putExtra("TWEET REPLY", tweet.getUser().getUsername());
                         context.startActivity(i);
                     }
 

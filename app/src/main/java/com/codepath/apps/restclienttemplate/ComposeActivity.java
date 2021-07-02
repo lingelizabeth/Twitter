@@ -40,7 +40,7 @@ public class ComposeActivity extends AppCompatActivity {
         // If the ComposeActivity is opened as a reply,
         // start the tweet with the original poster's username
         if(getIntent().getParcelableExtra("TWEET REPLY") != null){
-            String username = "@"+Parcels.unwrap(getIntent().getParcelableExtra("TWEET REPLY"));
+            String username = "@"+getIntent().getParcelableExtra("TWEET REPLY");
             etCompose.setText(username);
             // Move cursor to the end of the username
             etCompose.setSelection(etCompose.getText().length());

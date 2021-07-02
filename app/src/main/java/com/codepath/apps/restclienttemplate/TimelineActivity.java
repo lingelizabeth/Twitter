@@ -51,12 +51,15 @@ public class TimelineActivity extends AppCompatActivity {
 
         // Find the recycler view and other views
         rvTweets = findViewById(R.id.rvTweet);
+
         // Init the list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
+
         // Configure recyclerview: layout manager and adapter
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
+
         //Setup swipe refresh
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -77,7 +80,7 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
     }
 
-    // TimelineActivity.java
+    // Logout Button onclick
     public void onLogoutButton(View view) {
         client.clearAccessToken(); // forget who's logged in
         finish(); // navigate backwards to Login screen after the intent led from Login to here
@@ -94,6 +97,7 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // passed in the menu item that was clicked
         if(item.getItemId() == R.id.compose){
+            // Open the Compose Tweet view
             Intent i = new Intent(this, ComposeActivity.class);
             startActivityForResult(i, REQUEST_CODE);
             return true;
@@ -103,18 +107,13 @@ public class TimelineActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showEditDialog() {
-//        FragmentManager fm = getSupportFragmentManager();
-//        ComposeFragment composeFragment = ComposeFragment.newInstance("ComposeTweet");
-//        composeFragment.show(fm, "fragment_edit_name");
-    }
-
+    // Called once the compose activity completes; inserts new tweet at the top of timeline
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            // Get data aka tweet from intent
+            // Get data (new tweet) from intent
             Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-            // Update recycler view with this new tweet
+            // Update recycler view with this new tweet and update display
             tweets.add(0, tweet);
             adapter.notifyItemInserted(0);
             rvTweets.smoothScrollToPosition(0);
@@ -131,7 +130,7 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 // Remember to CLEAR OUT old items before appending in the new ones
                 adapter.clear();
-                // ...the data has come back, add new items to your adapter...
+                // ...the data has come back, adding new items to adapter...
                 try {
                     tweets.addAll(Tweet.fromJsonArray(json.jsonArray));
                 } catch (JSONException e) {
@@ -148,6 +147,7 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    // API call to fetch all tweets for timeline
     private void populateHomeTimeline() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
@@ -155,6 +155,7 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "populateHomeTimeline successful: "+json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    // Update tweet list and display
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
