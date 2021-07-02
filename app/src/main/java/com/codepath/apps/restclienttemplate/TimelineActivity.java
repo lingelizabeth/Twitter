@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -44,6 +45,10 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient(this);
         populateHomeTimeline();
 
+        // Setup Toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
         // Find the recycler view and other views
         rvTweets = findViewById(R.id.rvTweet);
         // Init the list of tweets and adapter
@@ -52,7 +57,7 @@ public class TimelineActivity extends AppCompatActivity {
         // Configure recyclerview: layout manager and adapter
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
-        //Setup swipre refresh
+        //Setup swipe refresh
         // Lookup the swipe container view
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -92,8 +97,16 @@ public class TimelineActivity extends AppCompatActivity {
             Intent i = new Intent(this, ComposeActivity.class);
             startActivityForResult(i, REQUEST_CODE);
             return true;
+        }else if(item.getItemId() == R.id.logout){
+            onLogoutButton(rvTweets);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showEditDialog() {
+//        FragmentManager fm = getSupportFragmentManager();
+//        ComposeFragment composeFragment = ComposeFragment.newInstance("ComposeTweet");
+//        composeFragment.show(fm, "fragment_edit_name");
     }
 
     @Override

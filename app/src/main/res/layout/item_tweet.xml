@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -22,16 +27,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/tvName"
+        android:textColor="@color/medium_gray"
         tools:text="400elizabeth" />
 
     <TextView
         android:id="@+id/tvTweet"
+        style="@style/body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUsername"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         tools:text="This is my tweet. :)" />
@@ -40,21 +47,70 @@
         android:id="@+id/tvRelativeTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="false"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@id/textView2"
+        android:textColor="@color/medium_gray"
         tools:text="8m" />
 
-    <ImageView
-        android:id="@+id/ivEmbedded"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/tvTweet"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="14dp"
+        <ImageView
+            android:id="@+id/ivEmbedded"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/tvTweet"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="14dp"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="false"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/tvUsername"
+        android:text="·"
+        android:textColor="@color/medium_gray" />
+
+        <Button
+            android:id="@+id/btnReply"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/ivEmbedded"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="0dp"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_vector_retweet"
+            android:drawablePadding="5dp"
+            android:textColor="@color/medium_gray"
+            android:textSize="14dp"
+            tools:text="413" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="false"
+        android:background="@color/medium_gray_30" />
 
 </RelativeLayout>

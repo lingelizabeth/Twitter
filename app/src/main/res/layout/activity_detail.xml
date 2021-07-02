@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".TweetDetailsActivity">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            style="@style/body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            android:text="TextView"
+            android:textColor="@color/medium_gray"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="24dp"
+            android:layout_toEndOf="@+id/ivProfileImage"
+            android:textSize="18dp"
+            tools:text="John Hayward" />
+
+        <TextView
+            android:id="@+id/tvTweet"
+            style="@style/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivProfileImage"
+            android:layout_alignParentStart="false"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:textSize="24dp"
+            app:lineHeight="34dp"
+            tools:text="Hey, this is my 5000th Tweet!" />
+
+        <TextView
+            android:id="@+id/tvCreatedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTweet"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/nimbus_sans_regular"
+            android:textColor="@color/medium_gray"
+            tools:text="Jul 1, 2021" />
+    </RelativeLayout>
+
+</LinearLayout>

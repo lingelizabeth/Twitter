@@ -37,11 +37,20 @@ public class ComposeActivity extends AppCompatActivity {
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
 
+        // If the ComposeActivity is opened as a reply,
+        // start the tweet with the original poster's username
+        if(getIntent().getParcelableExtra("TWEET REPLY") != null){
+            String username = "@"+Parcels.unwrap(getIntent().getParcelableExtra("TWEET REPLY"));
+            etCompose.setText(username);
+            // Move cursor to the end of the username
+            etCompose.setSelection(etCompose.getText().length());
+        }
+
         // Add on click listener to the button
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Make an API Call to TWitter to post tweet
+                // Handle empty/too long tweets
                 String tweetContent = etCompose.getText().toString();
                 if(tweetContent.isEmpty()){
                     Toast.makeText(ComposeActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_SHORT).show();
@@ -50,6 +59,7 @@ public class ComposeActivity extends AppCompatActivity {
                     Toast.makeText(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_SHORT).show();
                     return;
                 } else{
+                    //Make an API Call to Twitter to post tweet
                     client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -58,11 +68,10 @@ public class ComposeActivity extends AppCompatActivity {
                                 Tweet tweet = Tweet.fromJson(json.jsonObject);
                                 Log.i(TAG, "Published tweet says: "+tweet.body);
                                 Intent i = new Intent();
+                                // Send tweet back to TimelineActivity to display
                                 i.putExtra("tweet", Parcels.wrap(tweet));
                                 setResult(RESULT_OK, i);
-                                Log.i(TAG, "about to finish and close tweet...");
                                 (ComposeActivity.this).finish(); // close this activity
-                                Log.i(TAG, "should never print");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

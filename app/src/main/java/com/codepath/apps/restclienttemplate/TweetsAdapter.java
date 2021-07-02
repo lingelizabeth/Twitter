@@ -1,9 +1,12 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +19,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
@@ -70,11 +75,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
 
     //Define a View Holder class which will parameterize the RecyclerView.Adapter
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         // Get references in values from the Tweet item
         ImageView ivProfileImage, ivEmbedded;
-        TextView tvUsername, tvTweet, tvRelativeTime;
+        TextView tvName, tvUsername, tvTweet, tvRelativeTime;
+        Button btnReply;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             // itemView passed in is one item in recyclerview
@@ -83,19 +89,49 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             ivEmbedded = itemView.findViewById(R.id.ivEmbedded);
             tvUsername = itemView.findViewById(R.id.tvUsername);
+            tvName = itemView.findViewById(R.id.tvName);
             tvTweet = itemView.findViewById(R.id.tvTweet);
             tvRelativeTime = itemView.findViewById(R.id.tvRelativeTime);
+            btnReply = itemView.findViewById(R.id.btnReply);
+
+            itemView.setOnClickListener(this);
+            btnReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Tweet tweet = tweets.get(position);
+                        Log.i("TweetsAdapter", "Reply button clicked!");
+                        Intent i = new Intent(context, ComposeActivity.class);
+                        i.putExtra("TWEET REPLY", Parcels.wrap(tweet.getUser().username));
+                        context.startActivity(i);
+                    }
+
+
+                }
+            });
         }
 
         public void bind(Tweet tweet){
             tvTweet.setText(tweet.getBody());
-            tvUsername.setText(tweet.getUser().getUsername());
+            tvUsername.setText("@"+tweet.getUser().getUsername());
+            tvName.setText(tweet.getUser().name);
             tvRelativeTime.setText(tweet.getRelativeTimeAgo());
+                try {
+                    if(tweet.getTimeString().length() < 5){
+                        tvRelativeTime.setText(tweet.getTimeString());
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+
 
             Glide.with(context)
                     .load(tweet.getUser().getProfileImageUrl())
                     .placeholder(R.drawable.profile_placeholder)
-                    .transform(new RoundedCorners(30))
+                    .circleCrop()
                     .into(ivProfileImage);
 
             if(tweet.hasImage){
@@ -107,6 +143,22 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }else{
                 // Have to clear it out otherwise when this view is recycled we see the old image
                 ivEmbedded.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                // get the movie at the position, this won't work if the class is static
+                Tweet tweet = tweets.get(position);
+                // create intent for the new activity
+                Intent intent = new Intent(context, TweetDetailsActivity.class);
+                // serialize the movie using parceler, use its short name as a key
+                // send the movie data as a parcel to the other activity
+                intent.putExtra("TWEET", Parcels.wrap(tweet));
+                // show the activity
+                context.startActivity(intent);
             }
         }
     }
